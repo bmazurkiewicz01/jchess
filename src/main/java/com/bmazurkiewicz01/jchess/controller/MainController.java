@@ -83,6 +83,26 @@ public class MainController {
         gridPane.add(blackBishop2, 2, 0);
         gridPane.add(whiteBishop1, 5, 7);
         gridPane.add(whiteBishop2, 2, 7);
+
+        Rook blackRook1 = new Rook(7, 0, PieceColor.BLACK, board);
+        Rook blackRook2 = new Rook(0, 0, PieceColor.BLACK, board);
+        Rook whiteRook1 = new Rook(7, 7, PieceColor.WHITE, board);
+        Rook whiteRook2 = new Rook(0, 7, PieceColor.WHITE, board);
+
+        blackRook1.setOnMousePressed(e -> handleOnTilePressed(board[blackRook1.getPieceX()][blackRook1.getPieceY()]));
+        blackRook2.setOnMousePressed(e -> handleOnTilePressed(board[blackRook2.getPieceX()][blackRook2.getPieceY()]));
+        whiteRook1.setOnMousePressed(e -> handleOnTilePressed(board[whiteRook1.getPieceX()][whiteRook1.getPieceY()]));
+        whiteRook2.setOnMousePressed(e -> handleOnTilePressed(board[whiteRook2.getPieceX()][whiteRook2.getPieceY()]));
+
+        board[7][0].setPiece(blackRook1);
+        board[0][0].setPiece(blackRook2);
+        board[7][7].setPiece(whiteRook1);
+        board[0][7].setPiece(whiteRook2);
+
+        gridPane.add(blackRook1, 7, 0);
+        gridPane.add(blackRook2, 0, 0);
+        gridPane.add(whiteRook1, 7, 7);
+        gridPane.add(whiteRook2, 0, 7);
     }
 
     public void handleOnTilePressed(Tile tile) {
