@@ -7,11 +7,8 @@ import static com.bmazurkiewicz01.jchess.engine.TileUtils.*;
 
 public class Tile extends Rectangle {
     private Piece piece;
-    private int x, y;
 
-    public Tile(int x, int y, boolean isLight) {
-        this.x = x;
-        this.y = y;
+    public Tile(boolean isLight) {
         setWidth(TILE_WIDTH);
         setHeight(TILE_HEIGHT);
 
