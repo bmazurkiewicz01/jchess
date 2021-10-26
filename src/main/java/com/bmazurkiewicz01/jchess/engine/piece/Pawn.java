@@ -1,18 +1,18 @@
-package com.bmazurkiewicz01.jchess.engine;
+package com.bmazurkiewicz01.jchess.engine.piece;
 
 import com.bmazurkiewicz01.jchess.App;
+import com.bmazurkiewicz01.jchess.engine.tile.Tile;
 import javafx.scene.image.Image;
-import javafx.scene.layout.GridPane;
 
 import java.util.Objects;
 
 public class Pawn extends Piece {
     private boolean firstMove;
 
-    public Pawn(int x, int y, PieceColor pieceColor, Tile[][] board, GridPane gridPane) {
-        super(x, y, pieceColor, board, gridPane);
+    public Pawn(int x, int y, PieceColor pieceColor, Tile[][] board) {
+        super(x, y, pieceColor, board);
         firstMove = true;
-        setImage(new Image(pieceColor == PieceColor.LIGHT ? Objects.requireNonNull(App.class.getResource("images/white-pawn.png")).toString()
+        setImage(new Image(pieceColor == PieceColor.WHITE ? Objects.requireNonNull(App.class.getResource("images/white-pawn.png")).toString()
                 : Objects.requireNonNull(App.class.getResource("images/black-pawn.png")).toString()));
     }
 
@@ -23,7 +23,7 @@ public class Pawn extends Piece {
 
 
         if (isMovingForward(y) && pathClear(y)) {
-            if (tile.getPiece() != null) {
+            if (tile.getPiece() != null && tile.getPiece().getPieceColor() != pieceColor) {
                 if (diffY == 1 && diffX == 1) {
                     tile.getPiece().setVisible(false);
                     return true;
@@ -43,7 +43,7 @@ public class Pawn extends Piece {
     }
 
     private boolean pathClear(int endY) {
-        if (getPieceColor() == PieceColor.LIGHT) {
+        if (getPieceColor() == PieceColor.WHITE) {
             for (int boardY = pieceY - 1; boardY > endY; boardY--) {
                 if (board[pieceX][boardY].getPiece() != null) {
                     return false;
@@ -60,7 +60,7 @@ public class Pawn extends Piece {
     }
 
     private boolean isMovingForward(int y) {
-        if (getPieceColor() == PieceColor.LIGHT) {
+        if (getPieceColor() == PieceColor.WHITE) {
             return y < pieceY;
         } else {
             return y > pieceY;

@@ -1,6 +1,8 @@
 package com.bmazurkiewicz01.jchess.controller;
 
-import com.bmazurkiewicz01.jchess.engine.*;
+import com.bmazurkiewicz01.jchess.engine.piece.*;
+import com.bmazurkiewicz01.jchess.engine.tile.Tile;
+import com.bmazurkiewicz01.jchess.engine.tile.TileUtils;
 import javafx.fxml.FXML;
 import javafx.scene.layout.GridPane;
 
@@ -28,9 +30,9 @@ public class MainController {
 
                 Pawn pawn = null;
                 if (y == 1) {
-                    pawn = new Pawn(x, y, PieceColor.DARK, board, gridPane);
+                    pawn = new Pawn(x, y, PieceColor.BLACK, board);
                 } else if (y == 6) {
-                    pawn = new Pawn(x, y, PieceColor.LIGHT, board, gridPane);
+                    pawn = new Pawn(x, y, PieceColor.WHITE, board);
                 }
 
                 if (pawn != null) {
@@ -42,10 +44,10 @@ public class MainController {
             }
         }
 
-        Knight blackKnight1 = new Knight(6, 0, PieceColor.DARK, board, gridPane);
-        Knight blackKnight2 = new Knight(1, 0, PieceColor.DARK, board, gridPane);
-        Knight whiteKnight1 = new Knight(6, 7, PieceColor.LIGHT, board, gridPane);
-        Knight whiteKnight2 = new Knight(1, 7, PieceColor.LIGHT, board, gridPane);
+        Knight blackKnight1 = new Knight(6, 0, PieceColor.BLACK, board);
+        Knight blackKnight2 = new Knight(1, 0, PieceColor.BLACK, board);
+        Knight whiteKnight1 = new Knight(6, 7, PieceColor.WHITE, board);
+        Knight whiteKnight2 = new Knight(1, 7, PieceColor.WHITE, board);
 
         blackKnight1.setOnMousePressed(e -> handleOnTilePressed(board[blackKnight1.getPieceX()][blackKnight1.getPieceY()]));
         blackKnight2.setOnMousePressed(e -> handleOnTilePressed(board[blackKnight2.getPieceX()][blackKnight2.getPieceY()]));
@@ -61,6 +63,26 @@ public class MainController {
         gridPane.add(blackKnight2, 1, 0);
         gridPane.add(whiteKnight1, 6, 7);
         gridPane.add(whiteKnight2, 1, 7);
+
+        Bishop blackBishop1 = new Bishop(5, 0, PieceColor.BLACK, board);
+        Bishop blackBishop2 = new Bishop(2, 0, PieceColor.BLACK, board);
+        Bishop whiteBishop1 = new Bishop(5, 7, PieceColor.WHITE, board);
+        Bishop whiteBishop2 = new Bishop(2, 7, PieceColor.WHITE, board);
+
+        blackBishop1.setOnMousePressed(e -> handleOnTilePressed(board[blackBishop1.getPieceX()][blackBishop1.getPieceY()]));
+        blackBishop2.setOnMousePressed(e -> handleOnTilePressed(board[blackBishop2.getPieceX()][blackBishop2.getPieceY()]));
+        whiteBishop1.setOnMousePressed(e -> handleOnTilePressed(board[whiteBishop1.getPieceX()][whiteBishop1.getPieceY()]));
+        whiteBishop2.setOnMousePressed(e -> handleOnTilePressed(board[whiteBishop2.getPieceX()][whiteBishop2.getPieceY()]));
+
+        board[5][0].setPiece(blackBishop1);
+        board[2][0].setPiece(blackBishop2);
+        board[5][7].setPiece(whiteBishop1);
+        board[2][7].setPiece(whiteBishop2);
+
+        gridPane.add(blackBishop1, 5, 0);
+        gridPane.add(blackBishop2, 2, 0);
+        gridPane.add(whiteBishop1, 5, 7);
+        gridPane.add(whiteBishop2, 2, 7);
     }
 
     public void handleOnTilePressed(Tile tile) {

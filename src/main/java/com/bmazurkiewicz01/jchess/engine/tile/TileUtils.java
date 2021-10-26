@@ -1,4 +1,4 @@
-package com.bmazurkiewicz01.jchess.engine;
+package com.bmazurkiewicz01.jchess.engine.tile;
 
 public class TileUtils {
     public static final int TILE_WIDTH = 100;

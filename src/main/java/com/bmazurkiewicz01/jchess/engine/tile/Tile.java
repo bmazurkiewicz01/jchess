@@ -1,9 +1,10 @@
-package com.bmazurkiewicz01.jchess.engine;
+package com.bmazurkiewicz01.jchess.engine.tile;
 
+import com.bmazurkiewicz01.jchess.engine.piece.Piece;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
-import static com.bmazurkiewicz01.jchess.engine.TileUtils.*;
+import static com.bmazurkiewicz01.jchess.engine.tile.TileUtils.*;
 
 public class Tile extends Rectangle {
     private Piece piece;

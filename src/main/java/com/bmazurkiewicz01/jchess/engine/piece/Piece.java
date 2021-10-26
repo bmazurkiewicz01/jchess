@@ -1,20 +1,19 @@
-package com.bmazurkiewicz01.jchess.engine;
+package com.bmazurkiewicz01.jchess.engine.piece;
 
+import com.bmazurkiewicz01.jchess.engine.tile.Tile;
+import com.bmazurkiewicz01.jchess.engine.tile.TileUtils;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
 
 public abstract class Piece extends ImageView {
-    private final PieceColor pieceColor;
+    protected final PieceColor pieceColor;
     protected int pieceX, pieceY;
     protected Tile[][] board;
-    protected GridPane gridPane;
 
-    public Piece(int x, int y, PieceColor pieceColor, Tile[][] board, GridPane gridPane) {
+    public Piece(int x, int y, PieceColor pieceColor, Tile[][] board) {
         this.pieceColor = pieceColor;
         this.pieceX = x;
         this.pieceY = y;
         this.board = board;
-        this.gridPane = gridPane;
 
         setFitWidth(TileUtils.TILE_WIDTH);
         setFitHeight(TileUtils.TILE_HEIGHT);
