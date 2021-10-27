@@ -17,17 +17,14 @@ public class Pawn extends Piece {
     }
 
     @Override
-    public boolean isValidMove(int x, int y, Tile tile) {
+    public boolean isValidMove(int x, int y) {
         int diffX = Math.abs(pieceX - x);
         int diffY = Math.abs(pieceY - y);
 
 
         if (isMovingForward(y) && pathClear(y)) {
-            if (tile.getPiece() != null) {
-                if (diffY == 1 && diffX == 1) {
-                    tile.getPiece().setVisible(false);
-                    return true;
-                }
+            if (board[x][y].getPiece() != null) {
+                return diffY == 1 && diffX == 1;
             } else {
                 if (firstMove) {
                     if (diffY > 0 && diffY <= 2 && diffX == 0) {

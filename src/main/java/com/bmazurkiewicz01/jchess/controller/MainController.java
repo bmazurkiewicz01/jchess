@@ -111,10 +111,15 @@ public class MainController {
 
                     System.out.printf("row %s column %s\n", row, column);
 
-                    if (clickedPiece.isValidMove(column, row, tile)) {
+                    if (clickedPiece.isValidMove(column, row)) {
                         int oldPieceX = clickedPiece.getPieceX();
                         int oldPieceY = clickedPiece.getPieceY();
-                        Piece oldTilePiece = clickedTile.getPiece();
+                        Piece oldTilePiece = null;
+
+                        if (tile.getPiece() != null) {
+                            oldTilePiece = tile.getPiece();
+                            oldTilePiece.setVisible(false);
+                        }
 
                         GridPane.setColumnIndex(clickedPiece, GridPane.getColumnIndex(tile));
                         GridPane.setRowIndex(clickedPiece, GridPane.getRowIndex(tile));
@@ -125,29 +130,29 @@ public class MainController {
 
                         clickedTile.toBack();
                         clickedTile.setPiece(null);
-
                         tile.setPiece(clickedPiece);
 
                         King king = getKing(currentTurn);
+                        System.out.printf("clickedPiece x = %d clickedPiece y = %d king x = %d king y = %d", clickedPiece.getPieceX(), clickedPiece.getPieceY(), king.getPieceX(), king.getPieceY());
                         if (king != null) {
-                            if (king.isSafe(king.getPieceX(), king.getPieceY(), board[king.getPieceX()][king.getPieceY()])) {
+                            if (king.isSafe(king.getPieceX(), king.getPieceY())) {
                                 if (currentTurn == PieceColor.WHITE) currentTurn = PieceColor.BLACK;
                                 else currentTurn = PieceColor.WHITE;
                             } else {
-                                king.setVisible(true);
-
                                 GridPane.setColumnIndex(clickedPiece, oldPieceX);
                                 GridPane.setRowIndex(clickedPiece, oldPieceY);
 
                                 clickedPiece.setPieceX(oldPieceX);
                                 clickedPiece.setPieceY(oldPieceY);
+                                clickedPiece.setVisible(true);
+
+                                clickedTile.setPiece(clickedPiece);
 
                                 if (oldTilePiece != null) {
-                                    oldTilePiece.setVisible(true);
-
-                                    clickedTile.setPiece(oldTilePiece);
-
                                     tile.setPiece(oldTilePiece);
+                                    oldTilePiece.setVisible(true);
+                                } else {
+                                    tile.setPiece(null);
                                 }
 
                             }

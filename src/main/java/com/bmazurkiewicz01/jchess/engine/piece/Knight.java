@@ -15,17 +15,10 @@ public class Knight extends Piece {
     }
 
     @Override
-    public boolean isValidMove(int x, int y, Tile tile) {
+    public boolean isValidMove(int x, int y) {
         int diffX = Math.abs(pieceX - x);
         int diffY = Math.abs(pieceY - y);
 
-        if ((diffX == 2 && diffY == 1) || (diffX == 1 && diffY == 2)) {
-            if (tile.getPiece() != null) {
-                tile.getPiece().setVisible(false);
-            }
-            return true;
-        }
-
-        return false;
+        return (diffX == 2 && diffY == 1) || (diffX == 1 && diffY == 2);
     }
 }

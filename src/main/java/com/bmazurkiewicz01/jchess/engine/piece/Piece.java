@@ -20,7 +20,7 @@ public abstract class Piece extends ImageView {
         managedProperty().bind(visibleProperty());
     }
 
-    public abstract boolean isValidMove(int x, int y, Tile tile);
+    public abstract boolean isValidMove(int x, int y);
 
     public PieceColor getPieceColor() {
         return pieceColor;

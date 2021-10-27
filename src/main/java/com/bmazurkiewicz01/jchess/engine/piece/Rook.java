@@ -15,14 +15,9 @@ public class Rook extends Piece {
     }
 
     @Override
-    public boolean isValidMove(int x, int y, Tile tile) {
+    public boolean isValidMove(int x, int y) {
         if (pathClear(x, y)) {
-            if (pieceX == x || pieceY == y) {
-                if (tile.getPiece() != null) {
-                    tile.getPiece().setVisible(false);
-                }
-                return true;
-            }
+            return (pieceX == x && pieceY != y) || (pieceX != x && pieceY == y);
         }
 
         return false;

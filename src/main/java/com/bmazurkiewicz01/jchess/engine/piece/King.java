@@ -16,21 +16,14 @@ public class King extends Piece {
     }
 
     @Override
-    public boolean isValidMove(int x, int y, Tile tile) {
+    public boolean isValidMove(int x, int y) {
         int diffX = Math.abs(pieceX - x);
         int diffY = Math.abs(pieceY - y);
 
-        if (isSafe(x, y, tile) && ((diffX == 1 && diffY == 0) || (diffX == 0 && diffY == 1) || (diffX == 1 && diffY == 1))) {
-            if (tile.getPiece() != null) {
-                tile.getPiece().setVisible(false);
-            }
-            return true;
-        }
-
-        return false;
+        return isSafe(x, y) && ((diffX == 1 && diffY == 0) || (diffX == 0 && diffY == 1) || (diffX == 1 && diffY == 1));
     }
 
-    public boolean isSafe(int x, int y, Tile tile) {
+    public boolean isSafe(int x, int y) {
         for (int boardY = 0; boardY < TileUtils.ROW_SIZE; boardY++) {
             for (int boardX = 0; boardX < TileUtils.COLUMN_SIZE; boardX++) {
                 Piece piece = board[boardX][boardY].getPiece();
@@ -49,7 +42,7 @@ public class King extends Piece {
                         if (diffY == 1 && diffX == 1) {
                             return false;
                         }
-                    } else if (piece.isValidMove(x, y, tile)) {
+                    } else if (piece.isValidMove(x, y)) {
                         return false;
                     }
                 }

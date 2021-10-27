@@ -15,22 +15,14 @@ public class Queen extends Piece {
     }
 
     @Override
-    public boolean isValidMove(int x, int y, Tile tile) {
+    public boolean isValidMove(int x, int y) {
         int diffX = Math.abs(pieceX - x);
         int diffY = Math.abs(pieceY - y);
 
         if (pathClear(x, y)) {
-            if (diffX == diffY) {
-                if (tile.getPiece() != null) {
-                    tile.getPiece().setVisible(false);
-                }
+            if (diffX == diffY && pieceX != x && pieceY != y) {
                 return true;
-            } else if (pieceX == x || pieceY == y) {
-                if (tile.getPiece() != null) {
-                    tile.getPiece().setVisible(false);
-                }
-                return true;
-            }
+            } else return (pieceX == x && pieceY != y) || (pieceX != x && pieceY == y);
         }
 
         return false;
