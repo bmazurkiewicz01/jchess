@@ -103,6 +103,30 @@ public class MainController {
         gridPane.add(blackRook2, 0, 0);
         gridPane.add(whiteRook1, 7, 7);
         gridPane.add(whiteRook2, 0, 7);
+
+        Queen blackQueen = new Queen(3, 0, PieceColor.BLACK, board);
+        Queen whiteQueen = new Queen(3, 7, PieceColor.WHITE, board);
+
+        blackQueen.setOnMousePressed(e -> handleOnTilePressed(board[blackQueen.getPieceX()][blackQueen.getPieceY()]));
+        whiteQueen.setOnMousePressed(e -> handleOnTilePressed(board[whiteQueen.getPieceX()][whiteQueen.getPieceY()]));
+
+        board[3][0].setPiece(blackQueen);
+        board[3][7].setPiece(whiteQueen);
+
+        gridPane.add(blackQueen, 3, 0);
+        gridPane.add(whiteQueen, 3, 7);
+
+        King blackKing = new King(4, 0, PieceColor.BLACK, board);
+        King whiteKing = new King(4, 7, PieceColor.WHITE, board);
+
+        blackKing.setOnMousePressed(e -> handleOnTilePressed(board[blackKing.getPieceX()][blackKing.getPieceY()]));
+        whiteKing.setOnMousePressed(e -> handleOnTilePressed(board[whiteKing.getPieceX()][whiteKing.getPieceY()]));
+
+        board[4][0].setPiece(blackKing);
+        board[4][7].setPiece(whiteKing);
+
+        gridPane.add(blackKing, 4, 0);
+        gridPane.add(whiteKing, 4, 7);
     }
 
     public void handleOnTilePressed(Tile tile) {

@@ -23,7 +23,7 @@ public class Pawn extends Piece {
 
 
         if (isMovingForward(y) && pathClear(y)) {
-            if (tile.getPiece() != null && tile.getPiece().getPieceColor() != pieceColor) {
+            if (tile.getPiece() != null) {
                 if (diffY == 1 && diffX == 1) {
                     tile.getPiece().setVisible(false);
                     return true;

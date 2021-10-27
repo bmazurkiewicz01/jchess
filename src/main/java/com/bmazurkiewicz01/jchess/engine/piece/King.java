@@ -6,12 +6,12 @@ import javafx.scene.image.Image;
 
 import java.util.Objects;
 
-public class Knight extends Piece {
+public class King extends Piece {
 
-    public Knight(int x, int y, PieceColor pieceColor, Tile[][] board) {
+    public King(int x, int y, PieceColor pieceColor, Tile[][] board) {
         super(x, y, pieceColor, board);
-        setImage(new Image(pieceColor == PieceColor.WHITE ? Objects.requireNonNull(App.class.getResource("images/white-knight.png")).toString()
-                : Objects.requireNonNull(App.class.getResource("images/black-knight.png")).toString()));
+        setImage(new Image(pieceColor == PieceColor.WHITE ? Objects.requireNonNull(App.class.getResource("images/white-king.png")).toString()
+                : Objects.requireNonNull(App.class.getResource("images/black-king.png")).toString()));
     }
 
     @Override
@@ -19,7 +19,7 @@ public class Knight extends Piece {
         int diffX = Math.abs(pieceX - x);
         int diffY = Math.abs(pieceY - y);
 
-        if ((diffX == 2 && diffY == 1) || (diffX == 1 && diffY == 2)) {
+        if ((diffX == 1 && diffY == 0) || (diffX == 0 && diffY == 1) || (diffX == 1 && diffY == 1)) {
             if (tile.getPiece() != null) {
                 tile.getPiece().setVisible(false);
             }
@@ -28,4 +28,5 @@ public class Knight extends Piece {
 
         return false;
     }
+
 }
