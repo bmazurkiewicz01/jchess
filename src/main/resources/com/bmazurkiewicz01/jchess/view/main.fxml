@@ -2,6 +2,6 @@
 <?import javafx.scene.layout.GridPane?>
 <GridPane xmlns:fx="http://javafx.com/fxml"
           fx:controller="com.bmazurkiewicz01.jchess.controller.MainController"
-          fx:id="gridPane">
+          fx:id="gridPane" alignment="CENTER">
 
 </GridPane>

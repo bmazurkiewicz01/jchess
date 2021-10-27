@@ -6,18 +6,28 @@ import com.bmazurkiewicz01.jchess.engine.tile.TileUtils;
 import javafx.fxml.FXML;
 import javafx.scene.layout.GridPane;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainController {
     @FXML
     public GridPane gridPane;
 
     private Tile[][] board;
+    private List<Piece> pieces;
 
     private Piece clickedPiece;
     private Tile clickedTile;
 
     public void initialize() {
         board = new Tile[TileUtils.ROW_SIZE][TileUtils.COLUMN_SIZE];
+        pieces = new ArrayList<>();
 
+        initializeBoard(board, pieces);
+        initializePieces(pieces);
+    }
+
+    private void initializeBoard(Tile[][] board, List<Piece> pieces) {
         for (int y = 0; y < TileUtils.ROW_SIZE; y++) {
             for (int x = 0; x < TileUtils.COLUMN_SIZE; x++) {
 
@@ -28,18 +38,10 @@ public class MainController {
                 board[x][y] = tile;
                 gridPane.add(tile, x, y);
 
-                Pawn pawn = null;
                 if (y == 1) {
-                    pawn = new Pawn(x, y, PieceColor.BLACK, board);
+                    pieces.add(new Pawn(x, y, PieceColor.BLACK, board));
                 } else if (y == 6) {
-                    pawn = new Pawn(x, y, PieceColor.WHITE, board);
-                }
-
-                if (pawn != null) {
-                    Pawn finalPawn = pawn;
-                    pawn.setOnMousePressed(e -> handleOnTilePressed(board[finalPawn.getPieceX()][finalPawn.getPieceY()]));
-                    tile.setPiece(pawn);
-                    gridPane.add(pawn, x, y);
+                    pieces.add(new Pawn(x, y, PieceColor.WHITE, board));
                 }
             }
         }
@@ -49,87 +51,47 @@ public class MainController {
         Knight whiteKnight1 = new Knight(6, 7, PieceColor.WHITE, board);
         Knight whiteKnight2 = new Knight(1, 7, PieceColor.WHITE, board);
 
-        blackKnight1.setOnMousePressed(e -> handleOnTilePressed(board[blackKnight1.getPieceX()][blackKnight1.getPieceY()]));
-        blackKnight2.setOnMousePressed(e -> handleOnTilePressed(board[blackKnight2.getPieceX()][blackKnight2.getPieceY()]));
-        whiteKnight1.setOnMousePressed(e -> handleOnTilePressed(board[whiteKnight1.getPieceX()][whiteKnight1.getPieceY()]));
-        whiteKnight2.setOnMousePressed(e -> handleOnTilePressed(board[whiteKnight2.getPieceX()][whiteKnight2.getPieceY()]));
-
-        board[6][0].setPiece(blackKnight1);
-        board[1][0].setPiece(blackKnight2);
-        board[6][7].setPiece(whiteKnight1);
-        board[1][7].setPiece(whiteKnight2);
-
-        gridPane.add(blackKnight1, 6, 0);
-        gridPane.add(blackKnight2, 1, 0);
-        gridPane.add(whiteKnight1, 6, 7);
-        gridPane.add(whiteKnight2, 1, 7);
+        pieces.add(blackKnight1);
+        pieces.add(blackKnight2);
+        pieces.add(whiteKnight1);
+        pieces.add(whiteKnight2);
 
         Bishop blackBishop1 = new Bishop(5, 0, PieceColor.BLACK, board);
         Bishop blackBishop2 = new Bishop(2, 0, PieceColor.BLACK, board);
         Bishop whiteBishop1 = new Bishop(5, 7, PieceColor.WHITE, board);
         Bishop whiteBishop2 = new Bishop(2, 7, PieceColor.WHITE, board);
 
-        blackBishop1.setOnMousePressed(e -> handleOnTilePressed(board[blackBishop1.getPieceX()][blackBishop1.getPieceY()]));
-        blackBishop2.setOnMousePressed(e -> handleOnTilePressed(board[blackBishop2.getPieceX()][blackBishop2.getPieceY()]));
-        whiteBishop1.setOnMousePressed(e -> handleOnTilePressed(board[whiteBishop1.getPieceX()][whiteBishop1.getPieceY()]));
-        whiteBishop2.setOnMousePressed(e -> handleOnTilePressed(board[whiteBishop2.getPieceX()][whiteBishop2.getPieceY()]));
-
-        board[5][0].setPiece(blackBishop1);
-        board[2][0].setPiece(blackBishop2);
-        board[5][7].setPiece(whiteBishop1);
-        board[2][7].setPiece(whiteBishop2);
-
-        gridPane.add(blackBishop1, 5, 0);
-        gridPane.add(blackBishop2, 2, 0);
-        gridPane.add(whiteBishop1, 5, 7);
-        gridPane.add(whiteBishop2, 2, 7);
+        pieces.add(blackBishop1);
+        pieces.add(blackBishop2);
+        pieces.add(whiteBishop1);
+        pieces.add(whiteBishop2);
 
         Rook blackRook1 = new Rook(7, 0, PieceColor.BLACK, board);
         Rook blackRook2 = new Rook(0, 0, PieceColor.BLACK, board);
         Rook whiteRook1 = new Rook(7, 7, PieceColor.WHITE, board);
         Rook whiteRook2 = new Rook(0, 7, PieceColor.WHITE, board);
 
-        blackRook1.setOnMousePressed(e -> handleOnTilePressed(board[blackRook1.getPieceX()][blackRook1.getPieceY()]));
-        blackRook2.setOnMousePressed(e -> handleOnTilePressed(board[blackRook2.getPieceX()][blackRook2.getPieceY()]));
-        whiteRook1.setOnMousePressed(e -> handleOnTilePressed(board[whiteRook1.getPieceX()][whiteRook1.getPieceY()]));
-        whiteRook2.setOnMousePressed(e -> handleOnTilePressed(board[whiteRook2.getPieceX()][whiteRook2.getPieceY()]));
-
-        board[7][0].setPiece(blackRook1);
-        board[0][0].setPiece(blackRook2);
-        board[7][7].setPiece(whiteRook1);
-        board[0][7].setPiece(whiteRook2);
-
-        gridPane.add(blackRook1, 7, 0);
-        gridPane.add(blackRook2, 0, 0);
-        gridPane.add(whiteRook1, 7, 7);
-        gridPane.add(whiteRook2, 0, 7);
+        pieces.add(blackRook1);
+        pieces.add(blackRook2);
+        pieces.add(whiteRook1);
+        pieces.add(whiteRook2);
 
         Queen blackQueen = new Queen(3, 0, PieceColor.BLACK, board);
         Queen whiteQueen = new Queen(3, 7, PieceColor.WHITE, board);
 
-        blackQueen.setOnMousePressed(e -> handleOnTilePressed(board[blackQueen.getPieceX()][blackQueen.getPieceY()]));
-        whiteQueen.setOnMousePressed(e -> handleOnTilePressed(board[whiteQueen.getPieceX()][whiteQueen.getPieceY()]));
+        pieces.add(blackQueen);
+        pieces.add(whiteQueen);
 
-        board[3][0].setPiece(blackQueen);
-        board[3][7].setPiece(whiteQueen);
-
-        gridPane.add(blackQueen, 3, 0);
-        gridPane.add(whiteQueen, 3, 7);
 
         King blackKing = new King(4, 0, PieceColor.BLACK, board);
         King whiteKing = new King(4, 7, PieceColor.WHITE, board);
 
-        blackKing.setOnMousePressed(e -> handleOnTilePressed(board[blackKing.getPieceX()][blackKing.getPieceY()]));
-        whiteKing.setOnMousePressed(e -> handleOnTilePressed(board[whiteKing.getPieceX()][whiteKing.getPieceY()]));
+        pieces.add(blackKing);
+        pieces.add(whiteKing);
 
-        board[4][0].setPiece(blackKing);
-        board[4][7].setPiece(whiteKing);
-
-        gridPane.add(blackKing, 4, 0);
-        gridPane.add(whiteKing, 4, 7);
     }
 
-    public void handleOnTilePressed(Tile tile) {
+    private void handleOnTilePressed(Tile tile) {
         if (clickedPiece != null) {
             if (tile.getPiece() == null || tile.getPiece().getPieceColor() != clickedPiece.getPieceColor()) {
 
@@ -171,6 +133,14 @@ public class MainController {
                 clickedPiece = null;
                 clickedTile = null;
             }
+        }
+    }
+
+    private void initializePieces(List<Piece> pieces) {
+        for (Piece piece : pieces) {
+            piece.setOnMousePressed(e -> handleOnTilePressed(board[piece.getPieceX()][piece.getPieceY()]));
+            board[piece.getPieceX()][piece.getPieceY()].setPiece(piece);
+            gridPane.add(piece, piece.getPieceX(), piece.getPieceY());
         }
     }
 }
