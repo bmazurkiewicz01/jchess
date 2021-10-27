@@ -18,10 +18,12 @@ public class MainController {
 
     private Piece clickedPiece;
     private Tile clickedTile;
+    private PieceColor currentTurn;
 
     public void initialize() {
         board = new Tile[TileUtils.ROW_SIZE][TileUtils.COLUMN_SIZE];
         pieces = new ArrayList<>();
+        currentTurn = PieceColor.WHITE;
 
         initializeBoard(board, pieces);
         initializePieces(pieces);
@@ -91,32 +93,47 @@ public class MainController {
 
     }
 
+    private void initializePieces(List<Piece> pieces) {
+        for (Piece piece : pieces) {
+            piece.setOnMousePressed(e -> handleOnTilePressed(board[piece.getPieceX()][piece.getPieceY()]));
+            board[piece.getPieceX()][piece.getPieceY()].setPiece(piece);
+            gridPane.add(piece, piece.getPieceX(), piece.getPieceY());
+        }
+    }
+
     private void handleOnTilePressed(Tile tile) {
         if (clickedPiece != null) {
-            if (tile.getPiece() == null || tile.getPiece().getPieceColor() != clickedPiece.getPieceColor()) {
+            if (currentTurn == clickedPiece.getPieceColor()) {
+                if (tile.getPiece() == null || tile.getPiece().getPieceColor() != clickedPiece.getPieceColor()) {
 
-                int row = GridPane.getRowIndex(tile);
-                int column = GridPane.getColumnIndex(tile);
+                    int row = GridPane.getRowIndex(tile);
+                    int column = GridPane.getColumnIndex(tile);
 
-                System.out.printf("row %s column %s\n", row, column);
+                    System.out.printf("row %s column %s\n", row, column);
 
-                if (clickedPiece.isValidMove(column, row, tile)) {
-                    GridPane.setColumnIndex(clickedPiece, GridPane.getColumnIndex(tile));
-                    GridPane.setRowIndex(clickedPiece, GridPane.getRowIndex(tile));
+                    if (clickedPiece.isValidMove(column, row, tile)) {
+                        GridPane.setColumnIndex(clickedPiece, GridPane.getColumnIndex(tile));
+                        GridPane.setRowIndex(clickedPiece, GridPane.getRowIndex(tile));
 
-                    clickedPiece.toFront();
-                    clickedPiece.setPieceX(column);
-                    clickedPiece.setPieceY(row);
+                        clickedPiece.toFront();
+                        clickedPiece.setPieceX(column);
+                        clickedPiece.setPieceY(row);
 
-                    clickedTile.toBack();
-                    clickedTile.setPiece(null);
+                        clickedTile.toBack();
+                        clickedTile.setPiece(null);
 
-                    tile.setPiece(clickedPiece);
+                        tile.setPiece(clickedPiece);
+
+                        if (currentTurn == PieceColor.WHITE) currentTurn = PieceColor.BLACK;
+                        else currentTurn = PieceColor.WHITE;
+                    } else {
+                        System.out.println("Invalid move!!!!");
+                    }
                 } else {
-                    System.out.println("Invalid move!!!!");
+                    System.out.println("can't move piece");
                 }
             } else {
-                System.out.println("can't move piece");
+                System.out.println("Not your turn");
             }
             clickedTile.setStyle("-fx-stroke-width: 1; -fx-stroke: black");
             clickedTile = null;
@@ -133,14 +150,6 @@ public class MainController {
                 clickedPiece = null;
                 clickedTile = null;
             }
-        }
-    }
-
-    private void initializePieces(List<Piece> pieces) {
-        for (Piece piece : pieces) {
-            piece.setOnMousePressed(e -> handleOnTilePressed(board[piece.getPieceX()][piece.getPieceY()]));
-            board[piece.getPieceX()][piece.getPieceY()].setPiece(piece);
-            gridPane.add(piece, piece.getPieceX(), piece.getPieceY());
         }
     }
 }
