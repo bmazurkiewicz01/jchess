@@ -133,7 +133,6 @@ public class MainController {
                         tile.setPiece(clickedPiece);
 
                         King king = getKing(currentTurn);
-                        System.out.printf("clickedPiece x = %d clickedPiece y = %d king x = %d king y = %d", clickedPiece.getPieceX(), clickedPiece.getPieceY(), king.getPieceX(), king.getPieceY());
                         if (king != null) {
                             if (king.isSafe(king.getPieceX(), king.getPieceY())) {
                                 if (currentTurn == PieceColor.WHITE) currentTurn = PieceColor.BLACK;
@@ -145,6 +144,13 @@ public class MainController {
                                 clickedPiece.setPieceX(oldPieceX);
                                 clickedPiece.setPieceY(oldPieceY);
                                 clickedPiece.setVisible(true);
+
+                                if (clickedPiece instanceof Pawn) {
+                                    Pawn pawn = (Pawn) clickedPiece;
+                                    if (!pawn.isFirstMove()) {
+                                        pawn.setFirstMove(true);
+                                    }
+                                }
 
                                 clickedTile.setPiece(clickedPiece);
 

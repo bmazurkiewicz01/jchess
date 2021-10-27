@@ -63,4 +63,12 @@ public class Pawn extends Piece {
             return y > pieceY;
         }
     }
+
+    public boolean isFirstMove() {
+        return firstMove;
+    }
+
+    public void setFirstMove(boolean firstMove) {
+        this.firstMove = firstMove;
+    }
 }
