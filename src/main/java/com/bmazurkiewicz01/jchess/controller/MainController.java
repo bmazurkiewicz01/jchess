@@ -112,6 +112,10 @@ public class MainController {
                     System.out.printf("row %s column %s\n", row, column);
 
                     if (clickedPiece.isValidMove(column, row, tile)) {
+                        int oldPieceX = clickedPiece.getPieceX();
+                        int oldPieceY = clickedPiece.getPieceY();
+                        Piece oldTilePiece = clickedTile.getPiece();
+
                         GridPane.setColumnIndex(clickedPiece, GridPane.getColumnIndex(tile));
                         GridPane.setRowIndex(clickedPiece, GridPane.getRowIndex(tile));
 
@@ -124,8 +128,30 @@ public class MainController {
 
                         tile.setPiece(clickedPiece);
 
-                        if (currentTurn == PieceColor.WHITE) currentTurn = PieceColor.BLACK;
-                        else currentTurn = PieceColor.WHITE;
+                        King king = getKing(currentTurn);
+                        if (king != null) {
+                            if (king.isSafe(king.getPieceX(), king.getPieceY(), board[king.getPieceX()][king.getPieceY()])) {
+                                if (currentTurn == PieceColor.WHITE) currentTurn = PieceColor.BLACK;
+                                else currentTurn = PieceColor.WHITE;
+                            } else {
+                                king.setVisible(true);
+
+                                GridPane.setColumnIndex(clickedPiece, oldPieceX);
+                                GridPane.setRowIndex(clickedPiece, oldPieceY);
+
+                                clickedPiece.setPieceX(oldPieceX);
+                                clickedPiece.setPieceY(oldPieceY);
+
+                                if (oldTilePiece != null) {
+                                    oldTilePiece.setVisible(true);
+
+                                    clickedTile.setPiece(oldTilePiece);
+
+                                    tile.setPiece(oldTilePiece);
+                                }
+
+                            }
+                        }
                     } else {
                         System.out.println("Invalid move!!!!");
                     }
@@ -151,5 +177,17 @@ public class MainController {
                 clickedTile = null;
             }
         }
+    }
+
+    private King getKing(PieceColor pieceColor) {
+        for (int y = 0; y < TileUtils.ROW_SIZE; y++) {
+            for (int x = 0; x < TileUtils.COLUMN_SIZE; x++) {
+                Piece piece = board[x][y].getPiece();
+                if (piece != null && piece.getPieceColor() == pieceColor && piece instanceof King) {
+                    return (King) piece;
+                }
+            }
+        }
+        return null;
     }
 }
