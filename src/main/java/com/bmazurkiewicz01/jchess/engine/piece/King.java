@@ -8,9 +8,11 @@ import javafx.scene.image.Image;
 import java.util.Objects;
 
 public class King extends Piece {
+    private boolean firstMove;
 
     public King(int x, int y, PieceColor pieceColor, Tile[][] board) {
         super(x, y, pieceColor, board);
+        firstMove = true;
         setImage(new Image(pieceColor == PieceColor.WHITE ? Objects.requireNonNull(App.class.getResource("images/white-king.png")).toString()
                 : Objects.requireNonNull(App.class.getResource("images/black-king.png")).toString()));
     }
@@ -20,7 +22,11 @@ public class King extends Piece {
         int diffX = Math.abs(pieceX - x);
         int diffY = Math.abs(pieceY - y);
 
-        return isSafe(x, y) && ((diffX == 1 && diffY == 0) || (diffX == 0 && diffY == 1) || (diffX == 1 && diffY == 1));
+        if (isSafe(x, y) && ((diffX == 1 && diffY == 0) || (diffX == 0 && diffY == 1) || (diffX == 1 && diffY == 1))) {
+            firstMove = false;
+            return true;
+        }
+        return false;
     }
 
     public boolean isSafe(int x, int y) {
@@ -51,4 +57,12 @@ public class King extends Piece {
         return true;
     }
 
+
+    public boolean isFirstMove() {
+        return firstMove;
+    }
+
+    public void setFirstMove(boolean firstMove) {
+        this.firstMove = firstMove;
+    }
 }

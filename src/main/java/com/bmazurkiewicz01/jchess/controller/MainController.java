@@ -22,9 +22,9 @@ public class MainController {
 
     public void initialize() {
         board = new Tile[TileUtils.ROW_SIZE][TileUtils.COLUMN_SIZE];
-        pieces = new ArrayList<>();
         currentTurn = PieceColor.WHITE;
 
+        pieces = new ArrayList<>();
         initializeBoard(board, pieces);
         initializePieces(pieces);
     }
@@ -104,70 +104,25 @@ public class MainController {
     private void handleOnTilePressed(Tile tile) {
         if (clickedPiece != null) {
             if (currentTurn == clickedPiece.getPieceColor()) {
-                if (tile.getPiece() == null || tile.getPiece().getPieceColor() != clickedPiece.getPieceColor()) {
 
-                    int row = GridPane.getRowIndex(tile);
-                    int column = GridPane.getColumnIndex(tile);
+                Piece oldPiece = null;
+                if (tile.getPiece() != null) {
+                    oldPiece = tile.getPiece();
+                    pieces.remove(oldPiece);
+                }
 
-                    System.out.printf("row %s column %s\n", row, column);
+                if (clickedPiece.move(tile, clickedTile, getKing(currentTurn), false)) {
+                    if (currentTurn == PieceColor.WHITE) currentTurn = PieceColor.BLACK;
+                    else currentTurn = PieceColor.WHITE;
 
-                    if (clickedPiece.isValidMove(column, row)) {
-                        int oldPieceX = clickedPiece.getPieceX();
-                        int oldPieceY = clickedPiece.getPieceY();
-                        Piece oldTilePiece = null;
-
-                        if (tile.getPiece() != null) {
-                            oldTilePiece = tile.getPiece();
-                            oldTilePiece.setVisible(false);
-                        }
-
-                        GridPane.setColumnIndex(clickedPiece, GridPane.getColumnIndex(tile));
-                        GridPane.setRowIndex(clickedPiece, GridPane.getRowIndex(tile));
-
-                        clickedPiece.toFront();
-                        clickedPiece.setPieceX(column);
-                        clickedPiece.setPieceY(row);
-
-                        clickedTile.toBack();
-                        clickedTile.setPiece(null);
-                        tile.setPiece(clickedPiece);
-
-                        King king = getKing(currentTurn);
-                        if (king != null) {
-                            if (king.isSafe(king.getPieceX(), king.getPieceY())) {
-                                if (currentTurn == PieceColor.WHITE) currentTurn = PieceColor.BLACK;
-                                else currentTurn = PieceColor.WHITE;
-                            } else {
-                                GridPane.setColumnIndex(clickedPiece, oldPieceX);
-                                GridPane.setRowIndex(clickedPiece, oldPieceY);
-
-                                clickedPiece.setPieceX(oldPieceX);
-                                clickedPiece.setPieceY(oldPieceY);
-                                clickedPiece.setVisible(true);
-
-                                if (clickedPiece instanceof Pawn) {
-                                    Pawn pawn = (Pawn) clickedPiece;
-                                    if (!pawn.isFirstMove()) {
-                                        pawn.setFirstMove(true);
-                                    }
-                                }
-
-                                clickedTile.setPiece(clickedPiece);
-
-                                if (oldTilePiece != null) {
-                                    tile.setPiece(oldTilePiece);
-                                    oldTilePiece.setVisible(true);
-                                } else {
-                                    tile.setPiece(null);
-                                }
-
-                            }
-                        }
-                    } else {
-                        System.out.println("Invalid move!!!!");
+                    if (isCheckmate(currentTurn)) {
+                        System.out.println("YOU WIN");
                     }
                 } else {
-                    System.out.println("can't move piece");
+                    if (oldPiece != null) {
+                        pieces.add(oldPiece);
+                    }
+                    System.out.println("Invalid move");
                 }
             } else {
                 System.out.println("Not your turn");
@@ -188,6 +143,20 @@ public class MainController {
                 clickedTile = null;
             }
         }
+    }
+
+    private boolean isCheckmate(PieceColor pieceColor) {
+        King king = getKing(pieceColor);
+        for (Piece piece : pieces) {
+            for (int y = 0; y < TileUtils.ROW_SIZE; y++) {
+                for (int x = 0; x < TileUtils.COLUMN_SIZE; x++) {
+                    if (piece.getPieceColor() == pieceColor && piece.move(board[x][y], board[piece.getPieceX()][piece.getPieceY()], king, true)) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
     }
 
     private King getKing(PieceColor pieceColor) {
