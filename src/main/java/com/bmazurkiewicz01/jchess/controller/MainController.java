@@ -21,10 +21,15 @@ public class MainController {
     private PieceColor currentTurn;
 
     public void initialize() {
+        startGame();
+    }
+
+    public void startGame() {
         board = new Tile[TileUtils.ROW_SIZE][TileUtils.COLUMN_SIZE];
         currentTurn = PieceColor.WHITE;
-
         pieces = new ArrayList<>();
+
+        gridPane.getChildren().clear();
         initializeBoard(board, pieces);
         initializePieces(pieces);
     }
@@ -117,6 +122,7 @@ public class MainController {
 
                     if (isCheckmate(currentTurn)) {
                         System.out.println("YOU WIN");
+                        startGame();
                     }
                 } else {
                     if (oldPiece != null) {
