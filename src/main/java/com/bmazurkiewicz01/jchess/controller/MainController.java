@@ -3,7 +3,9 @@ package com.bmazurkiewicz01.jchess.controller;
 import com.bmazurkiewicz01.jchess.engine.piece.*;
 import com.bmazurkiewicz01.jchess.engine.tile.Tile;
 import com.bmazurkiewicz01.jchess.engine.tile.TileUtils;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.layout.GridPane;
 
 import java.util.ArrayList;
@@ -90,8 +92,8 @@ public class MainController {
         pieces.add(whiteQueen);
 
 
-        King blackKing = new King(4, 0, PieceColor.BLACK, board);
-        King whiteKing = new King(4, 7, PieceColor.WHITE, board);
+        King blackKing = new King(4, 0, PieceColor.BLACK, board, gridPane);
+        King whiteKing = new King(4, 7, PieceColor.WHITE, board, gridPane);
 
         pieces.add(blackKing);
         pieces.add(whiteKing);
@@ -175,5 +177,19 @@ public class MainController {
             }
         }
         return null;
+    }
+
+    public static Node getNodeByRowColumnIndex (int row, int column, GridPane gridPane) {
+        Node result = null;
+        ObservableList<Node> childrens = gridPane.getChildren();
+
+        for (Node node : childrens) {
+            if(GridPane.getRowIndex(node) == row && GridPane.getColumnIndex(node) == column) {
+                result = node;
+                break;
+            }
+        }
+
+        return result;
     }
 }
