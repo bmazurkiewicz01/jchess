@@ -118,34 +118,54 @@ public class King extends Piece {
         int diffX = Math.abs(pieceX - x);
         int diffY = Math.abs(pieceY - y);
 
-        if (firstMove && (diffX == 2 && diffY == 0)) {
+
+        Rook rook = null;
+        if (firstMove && pathClear(x)  && (diffX == 2 && diffY == 0)) {
             if (pieceColor == PieceColor.WHITE) {
                 if (pieceX < x) {
                     Piece piece = ((Tile) MainController.getNodeByRowColumnIndex(7, 7, gridPane)).getPiece();
                     if (piece instanceof Rook) {
-                        return (Rook) piece;
+                        rook = (Rook) piece;
                     }
                 } else if (pieceX > x) {
                     Piece piece = ((Tile) MainController.getNodeByRowColumnIndex(7, 0, gridPane)).getPiece();
                     if (piece instanceof Rook) {
-                        return (Rook) piece;
+                        rook = (Rook) piece;
                     }
                 }
             } else {
                 if (pieceX < x) {
                     Piece piece = ((Tile) MainController.getNodeByRowColumnIndex(0, 7, gridPane)).getPiece();
                     if (piece instanceof Rook) {
-                        return (Rook) piece;
+                        rook = (Rook) piece;
                     }
                 } else if (pieceX > x) {
                     Piece piece = ((Tile) MainController.getNodeByRowColumnIndex(0, 0, gridPane)).getPiece();
                     if (piece instanceof Rook) {
-                        return (Rook) piece;
+                        rook = (Rook) piece;
                     }
                 }
             }
         }
+        if (rook != null && pathClear(rook.getPieceX())) return rook;
         return null;
+    }
+
+    private boolean pathClear(int endX) {
+        if (endX > pieceX) {
+            for (int boardX = pieceX + 1; boardX < endX; boardX++) {
+                if (board[boardX][pieceY].getPiece() != null || !isSafe(boardX, pieceY)) {
+                    return false;
+                }
+            }
+        } else if (endX < pieceX) {
+            for (int boardX = pieceX - 1; boardX > endX; boardX--) {
+                if (board[boardX][pieceY].getPiece() != null || !isSafe(boardX, pieceY)) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     public boolean isFirstMove() {
