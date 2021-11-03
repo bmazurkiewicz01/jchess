@@ -1,7 +1,7 @@
 package com.bmazurkiewicz01.jchess.engine.piece;
 
 import com.bmazurkiewicz01.jchess.App;
-import com.bmazurkiewicz01.jchess.controller.MainController;
+import com.bmazurkiewicz01.jchess.controller.GridPaneUtils;
 import com.bmazurkiewicz01.jchess.engine.tile.Tile;
 import com.bmazurkiewicz01.jchess.engine.tile.TileUtils;
 import javafx.scene.image.Image;
@@ -123,24 +123,24 @@ public class King extends Piece {
         if (firstMove && pathClear(x)  && (diffX == 2 && diffY == 0)) {
             if (pieceColor == PieceColor.WHITE) {
                 if (pieceX < x) {
-                    Piece piece = ((Tile) MainController.getNodeByRowColumnIndex(7, 7, gridPane)).getPiece();
+                    Piece piece = ((Tile) GridPaneUtils.getNodeByRowColumnIndex(7, 7, gridPane)).getPiece();
                     if (piece instanceof Rook) {
                         rook = (Rook) piece;
                     }
                 } else if (pieceX > x) {
-                    Piece piece = ((Tile) MainController.getNodeByRowColumnIndex(7, 0, gridPane)).getPiece();
+                    Piece piece = ((Tile) GridPaneUtils.getNodeByRowColumnIndex(7, 0, gridPane)).getPiece();
                     if (piece instanceof Rook) {
                         rook = (Rook) piece;
                     }
                 }
             } else {
                 if (pieceX < x) {
-                    Piece piece = ((Tile) MainController.getNodeByRowColumnIndex(0, 7, gridPane)).getPiece();
+                    Piece piece = ((Tile) GridPaneUtils.getNodeByRowColumnIndex(0, 7, gridPane)).getPiece();
                     if (piece instanceof Rook) {
                         rook = (Rook) piece;
                     }
                 } else if (pieceX > x) {
-                    Piece piece = ((Tile) MainController.getNodeByRowColumnIndex(0, 0, gridPane)).getPiece();
+                    Piece piece = ((Tile) GridPaneUtils.getNodeByRowColumnIndex(0, 0, gridPane)).getPiece();
                     if (piece instanceof Rook) {
                         rook = (Rook) piece;
                     }

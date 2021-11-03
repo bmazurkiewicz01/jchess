@@ -178,18 +178,4 @@ public class MainController {
         }
         return null;
     }
-
-    public static Node getNodeByRowColumnIndex (int row, int column, GridPane gridPane) {
-        Node result = null;
-        ObservableList<Node> childrens = gridPane.getChildren();
-
-        for (Node node : childrens) {
-            if(GridPane.getRowIndex(node) == row && GridPane.getColumnIndex(node) == column) {
-                result = node;
-                break;
-            }
-        }
-
-        return result;
-    }
 }
