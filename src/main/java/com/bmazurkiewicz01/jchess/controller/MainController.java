@@ -1,37 +1,29 @@
 package com.bmazurkiewicz01.jchess.controller;
 
+import com.bmazurkiewicz01.jchess.App;
 import com.bmazurkiewicz01.jchess.engine.piece.*;
 import com.bmazurkiewicz01.jchess.engine.tile.Tile;
 import com.bmazurkiewicz01.jchess.engine.tile.TileUtils;
-import javafx.concurrent.Task;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 public class MainController {
     @FXML
     public AnchorPane root;
     @FXML
     public GridPane gridPane;
-
-    @FXML
-    public Pane whitePromotionPane;
-    @FXML
-    public Button whitePromotionQueen;
-    @FXML
-    public Button whitePromotionRook;
-    @FXML
-    public Button whitePromotionBishop;
-    @FXML
-    public Button whitePromotionKnight;
-
-    private volatile int pieceId = 0;
 
     private Tile[][] board;
     private List<Piece> pieces;
@@ -134,50 +126,31 @@ public class MainController {
         pieces.remove(piece);
     }
 
-    public Piece showPawnPromotionPane(int x, int y) throws ExecutionException, InterruptedException {
-//        whitePromotionPane.setManaged(true);
-//        whitePromotionPane.setVisible(true);
-//
-//        whitePromotionPane.setTranslateX(x);
-//        whitePromotionPane.setTranslateY(y);
-//
-//        whitePromotionQueen.setOnMousePressed(e -> {
-//            pieceId = 1;
-//        });
-//        whitePromotionRook.setOnMousePressed(e -> {
-//            pieceId = 2;
-//        });
-//        whitePromotionBishop.setOnMousePressed(e -> {
-//            pieceId = 3;
-//        });
-//        whitePromotionKnight.setOnMousePressed(e -> {
-//            pieceId = 4;
-//        });
-//
-//        Task<Piece> pieceTask = new Task<>() {
-//            @Override
-//            protected Piece call() throws InterruptedException {
-//                switch (pieceId) {
-//                    case 1:
-//                        return new Queen(0, 0, PieceColor.WHITE, board);
-//                    case 2:
-//                        return new Rook(0, 0, PieceColor.WHITE, board);
-//                    case 3:
-//                        return new Bishop(0, 0, PieceColor.WHITE, board);
-//                    case 4:
-//                        return new Knight(0, 0, PieceColor.WHITE, board);
-//                }
-//                return null;
-//            }
-//        };
-//        new Thread(pieceTask).start();
-//
-//        Piece newPiece = pieceTask.get();
-//        whitePromotionPane.setManaged(false);
-//        whitePromotionPane.setVisible(false);
-//
-//        return newPiece;
-        return new Queen(0, 0, PieceColor.WHITE, board);
+    public Piece showPawnPromotionPane(PieceColor pieceColor) {
+
+        final Stage pawnPromotionDialog = new Stage();
+
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("view/pawnPromotionDialog.fxml"));
+        Parent root;
+        try {
+            root = fxmlLoader.load();
+
+            pawnPromotionDialog.setScene(new Scene(root));
+            pawnPromotionDialog.getScene().setFill(Color.TRANSPARENT);
+            pawnPromotionDialog.initModality(Modality.APPLICATION_MODAL);
+            pawnPromotionDialog.initOwner(this.root.getScene().getWindow());
+            pawnPromotionDialog.initStyle(StageStyle.TRANSPARENT);
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+
+        PawnPromotionDialogController controller = fxmlLoader.getController();
+        controller.setBoardAndPieceColor(board, pieceColor);
+
+        pawnPromotionDialog.showAndWait();
+
+
+        return controller.getSelectedPiece();
     }
 
     private void handleOnTilePressed(Tile tile) {

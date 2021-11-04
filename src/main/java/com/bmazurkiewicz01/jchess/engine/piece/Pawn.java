@@ -3,13 +3,10 @@ package com.bmazurkiewicz01.jchess.engine.piece;
 import com.bmazurkiewicz01.jchess.App;
 import com.bmazurkiewicz01.jchess.controller.MainController;
 import com.bmazurkiewicz01.jchess.engine.tile.Tile;
-import com.bmazurkiewicz01.jchess.engine.tile.TileUtils;
 import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
-import org.controlsfx.control.spreadsheet.Grid;
 
 import java.util.Objects;
-import java.util.concurrent.ExecutionException;
 
 public class Pawn extends Piece {
     private boolean firstMove;
@@ -77,20 +74,15 @@ public class Pawn extends Piece {
                 if (king != null) {
                     if (king.isSafe(king.getPieceX(), king.getPieceY())) {
 
-                        if(canPromote(pieceY)) {
-                            try {
-                                Piece piece = mainController.showPawnPromotionPane(pieceX * TileUtils.TILE_WIDTH, pieceY * TileUtils.TILE_HEIGHT);
-                                piece.setPieceX(pieceX);
-                                piece.setPieceY(pieceY);
-                                piece.setPieceColor(pieceColor);
-                                mainController.addPiece(piece);
-                                tile.setPiece(piece);
+                        if (canPromote(pieceY)) {
+                            Piece piece = mainController.showPawnPromotionPane(pieceColor);
+                            piece.setPieceX(pieceX);
+                            piece.setPieceY(pieceY);
+                            mainController.addPiece(piece);
+                            tile.setPiece(piece);
 
-                                mainController.removePiece(this);
-                                setVisible(false);
-                            }  catch (ExecutionException | InterruptedException e) {
-                                e.printStackTrace();
-                            }
+                            mainController.removePiece(this);
+                            setVisible(false);
                         }
 
                         if (testMove) revertMove(tile, clickedTile, oldPieceX, oldPieceY, oldTilePiece);

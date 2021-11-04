@@ -1,0 +1,21 @@
+.piece {
+    -fx-background-color: transparent;
+    -fx-background-size: 100px 100px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+#queenPromotion {
+    -fx-background-image: url("../../images/white-queen.png");
+}
+
+#rookPromotion {
+    -fx-background-image: url("../../images/white-rook.png");
+}
+
+#bishopPromotion {
+    -fx-background-image: url("../../images/white-bishop.png");
+}
+
+#knightPromotion {
+    -fx-background-image: url("../../images/white-knight.png");
+}

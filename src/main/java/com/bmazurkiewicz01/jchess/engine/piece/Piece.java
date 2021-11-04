@@ -1,9 +1,13 @@
 package com.bmazurkiewicz01.jchess.engine.piece;
 
+import com.bmazurkiewicz01.jchess.App;
 import com.bmazurkiewicz01.jchess.engine.tile.Tile;
 import com.bmazurkiewicz01.jchess.engine.tile.TileUtils;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+
+import java.util.Objects;
 
 public abstract class Piece extends ImageView {
     protected PieceColor pieceColor;

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.control.Button?>
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.bmazurkiewicz01.jchess.controller.PawnPromotionDialogController"
+            fx:id="root"
+            prefHeight="100.0" prefWidth="400.0">
+    <HBox>
+        <Button fx:id="queenPromotion" prefHeight="100.0" prefWidth="100.0" id="queenPromotion" styleClass="piece"/>
+        <Button fx:id="rookPromotion" prefHeight="100.0" prefWidth="100.0" id="rookPromotion" styleClass="piece"/>
+        <Button fx:id="bishopPromotion" prefHeight="100.0" prefWidth="100.0" id="bishopPromotion" styleClass="piece"/>
+        <Button fx:id="knightPromotion" prefHeight="100.0" prefWidth="100.0" id="knightPromotion" styleClass="piece"/>
+    </HBox>
+</AnchorPane>
