@@ -57,8 +57,11 @@ public class PawnPromotionDialogController {
         stage.close();
     }
 
-    public void setBoardAndPieceColor(Tile[][] board, PieceColor pieceColor) {
+    public void setBoard(Tile[][] board) {
         this.board = board;
+    }
+
+    public void setPieceColor(PieceColor pieceColor) {
         this.pieceColor = pieceColor;
 
         if (pieceColor == PieceColor.WHITE) {

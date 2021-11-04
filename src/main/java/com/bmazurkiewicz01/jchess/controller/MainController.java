@@ -140,15 +140,16 @@ public class MainController {
             pawnPromotionDialog.initModality(Modality.APPLICATION_MODAL);
             pawnPromotionDialog.initOwner(this.root.getScene().getWindow());
             pawnPromotionDialog.initStyle(StageStyle.TRANSPARENT);
+
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
 
         PawnPromotionDialogController controller = fxmlLoader.getController();
-        controller.setBoardAndPieceColor(board, pieceColor);
+        controller.setBoard(board);
+        controller.setPieceColor(pieceColor);
 
         pawnPromotionDialog.showAndWait();
-
 
         return controller.getSelectedPiece();
     }
