@@ -102,7 +102,7 @@ public class King extends Piece {
                         int diffX = Math.abs(piece.getPieceX() - x);
                         int diffY = Math.abs(piece.getPieceY() - y);
 
-                        if (diffY == 1 && diffX == 1) {
+                        if (piece.isValidMove(x, y) && diffY == 1 && diffX == 1) {
                             return false;
                         }
                     } else if (piece.isValidMove(x, y)) {

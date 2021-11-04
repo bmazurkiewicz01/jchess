@@ -6,7 +6,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 
 public abstract class Piece extends ImageView {
-    protected final PieceColor pieceColor;
+    protected PieceColor pieceColor;
     protected int pieceX, pieceY;
     protected Tile[][] board;
 
@@ -95,6 +95,10 @@ public abstract class Piece extends ImageView {
 
     public PieceColor getPieceColor() {
         return pieceColor;
+    }
+
+    public void setPieceColor(PieceColor pieceColor) {
+        this.pieceColor = pieceColor;
     }
 
     public int getPieceX() {

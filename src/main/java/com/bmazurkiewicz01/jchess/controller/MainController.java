@@ -3,17 +3,35 @@ package com.bmazurkiewicz01.jchess.controller;
 import com.bmazurkiewicz01.jchess.engine.piece.*;
 import com.bmazurkiewicz01.jchess.engine.tile.Tile;
 import com.bmazurkiewicz01.jchess.engine.tile.TileUtils;
-import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
+import javafx.scene.control.Button;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class MainController {
     @FXML
+    public AnchorPane root;
+    @FXML
     public GridPane gridPane;
+
+    @FXML
+    public Pane whitePromotionPane;
+    @FXML
+    public Button whitePromotionQueen;
+    @FXML
+    public Button whitePromotionRook;
+    @FXML
+    public Button whitePromotionBishop;
+    @FXML
+    public Button whitePromotionKnight;
+
+    private volatile int pieceId = 0;
 
     private Tile[][] board;
     private List<Piece> pieces;
@@ -48,9 +66,9 @@ public class MainController {
                 gridPane.add(tile, x, y);
 
                 if (y == 1) {
-                    pieces.add(new Pawn(x, y, PieceColor.BLACK, board));
+                    pieces.add(new Pawn(x, y, PieceColor.BLACK, board, this));
                 } else if (y == 6) {
-                    pieces.add(new Pawn(x, y, PieceColor.WHITE, board));
+                    pieces.add(new Pawn(x, y, PieceColor.WHITE, board, this));
                 }
             }
         }
@@ -102,10 +120,64 @@ public class MainController {
 
     private void initializePieces(List<Piece> pieces) {
         for (Piece piece : pieces) {
-            piece.setOnMousePressed(e -> handleOnTilePressed(board[piece.getPieceX()][piece.getPieceY()]));
-            board[piece.getPieceX()][piece.getPieceY()].setPiece(piece);
-            gridPane.add(piece, piece.getPieceX(), piece.getPieceY());
+            addPiece(piece);
         }
+    }
+
+    public void addPiece(Piece piece) {
+        piece.setOnMousePressed(e -> handleOnTilePressed(board[piece.getPieceX()][piece.getPieceY()]));
+        board[piece.getPieceX()][piece.getPieceY()].setPiece(piece);
+        gridPane.add(piece, piece.getPieceX(), piece.getPieceY());
+    }
+
+    public void removePiece(Piece piece) {
+        pieces.remove(piece);
+    }
+
+    public Piece showPawnPromotionPane(int x, int y) throws ExecutionException, InterruptedException {
+//        whitePromotionPane.setManaged(true);
+//        whitePromotionPane.setVisible(true);
+//
+//        whitePromotionPane.setTranslateX(x);
+//        whitePromotionPane.setTranslateY(y);
+//
+//        whitePromotionQueen.setOnMousePressed(e -> {
+//            pieceId = 1;
+//        });
+//        whitePromotionRook.setOnMousePressed(e -> {
+//            pieceId = 2;
+//        });
+//        whitePromotionBishop.setOnMousePressed(e -> {
+//            pieceId = 3;
+//        });
+//        whitePromotionKnight.setOnMousePressed(e -> {
+//            pieceId = 4;
+//        });
+//
+//        Task<Piece> pieceTask = new Task<>() {
+//            @Override
+//            protected Piece call() throws InterruptedException {
+//                switch (pieceId) {
+//                    case 1:
+//                        return new Queen(0, 0, PieceColor.WHITE, board);
+//                    case 2:
+//                        return new Rook(0, 0, PieceColor.WHITE, board);
+//                    case 3:
+//                        return new Bishop(0, 0, PieceColor.WHITE, board);
+//                    case 4:
+//                        return new Knight(0, 0, PieceColor.WHITE, board);
+//                }
+//                return null;
+//            }
+//        };
+//        new Thread(pieceTask).start();
+//
+//        Piece newPiece = pieceTask.get();
+//        whitePromotionPane.setManaged(false);
+//        whitePromotionPane.setVisible(false);
+//
+//        return newPiece;
+        return new Queen(0, 0, PieceColor.WHITE, board);
     }
 
     private void handleOnTilePressed(Tile tile) {
