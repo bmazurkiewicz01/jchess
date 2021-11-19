@@ -4,6 +4,7 @@ import com.bmazurkiewicz01.jchess.App;
 import com.bmazurkiewicz01.jchess.engine.piece.*;
 import com.bmazurkiewicz01.jchess.engine.tile.Tile;
 import com.bmazurkiewicz01.jchess.engine.tile.TileUtils;
+import com.bmazurkiewicz01.jchess.view.View;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -130,7 +131,7 @@ public class MainController {
 
         final Stage pawnPromotionDialog = new Stage();
 
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("view/pawnPromotionDialog.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("view/"+ View.PAWN_PROMOTION_DIALOG.getFileName()));
         Parent root;
         try {
             root = fxmlLoader.load();
